@@ -114,6 +114,9 @@ public class ForgeEventHandler {
 	private ConcurrentHashMap<String, Boolean> nowPlayerList = new ConcurrentHashMap<>();
 	public WeakHashMap<Entity, RenderFlags> entityRenderFlags = new WeakHashMap<>();
 	private boolean wasOnFire = false;
+	
+	/**notify and wait for waitTick calls*/
+	Object tickLock = new Object();
 	//private Queue<List<ItemStack>> receivedInventories = new LinkedList<>();
 	public ForgeEventHandler() {
 		heldMouseButtons = new ArrayList<>(Mouse.getButtonCount());
@@ -259,6 +262,9 @@ public class ForgeEventHandler {
 		}
 		synchronized (sTickSync) {
 			sTick++;
+			synchronized (tickLock) {
+				tickLock.notifyAll();
+			}
 		}
 		if(look!=null){
 			look.look();
@@ -1305,6 +1311,9 @@ public class ForgeEventHandler {
 		synchronized (sTickSync) {
 			return sTick;
 		}
+	}
+	public Object getTickLock() {
+		return tickLock;
 	}
 
 	private Look look;
