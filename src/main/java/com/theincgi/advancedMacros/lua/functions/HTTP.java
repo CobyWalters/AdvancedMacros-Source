@@ -134,10 +134,7 @@ public class HTTP extends OneArgFunction{
 				@Override
 				public LuaValue call() {
 					try {
-						int b = in.read();
-						if(b>=0)
-							return LuaValue.valueOf(String.valueOf((char)b));
-						return FALSE;
+						return LuaValue.valueOf(String.valueOf((char)in.read()));
 					} catch (IOException e) {
 						return LuaValue.NIL;
 					}

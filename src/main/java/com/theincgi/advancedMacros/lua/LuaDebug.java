@@ -176,12 +176,8 @@ public class LuaDebug extends DebugLib{
 					});
 					thread.setName(sFunc.tojstring());
 					thread.start();
-					
-					try {
-						return ThreadControls.getControls(this);
-					}catch (Exception e) {
-						return new LuaTable();
-					}
+
+					return ThreadControls.getControls(this);
 				}else{
 					throw new LuaError("Attempt to start a thread in state '"+status+"'");
 				}
@@ -232,12 +228,8 @@ public class LuaDebug extends DebugLib{
 				});
 
 				thread.start();
-				
-				try {
-					return ThreadControls.getControls(this);
-				}catch (Exception e) {
-					return new LuaTable();
-				}
+
+				return ThreadControls.getControls(this);
 			}else{
 				throw new LuaError("Attempt to start a thread in state '"+status+"'");
 			}
@@ -283,9 +275,6 @@ public class LuaDebug extends DebugLib{
 		LuaThread t;
 
 		public static ThreadControls getControls(LuaThread t) {
-			if(Thread.currentThread() == AdvancedMacros.getMinecraftThread()) {
-				throw new LuaError("Minecraft thread does not have controls!");
-			}
 			if(t==null) throw new NullPointerException("LuaThread is null");
 			return controlLookup.computeIfAbsent(t, (key)->{
 				return new ThreadControls(t);

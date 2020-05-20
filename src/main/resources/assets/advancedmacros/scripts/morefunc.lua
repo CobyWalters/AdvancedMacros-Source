@@ -76,17 +76,3 @@ function advancedMacros.inherit( baseClass )
 
   return class
 end
-
-function luajava.findMethodByDescription( sClass, name, desc )
-  for n, f in pairs( luajava.getDeclaredMethods(sClass) ) do
-    if n==name then
-      for i, m in pairs( luajava.splitOverloaded( f ) ) do
-        if luajava.describeMethod( m ) == desc then
-          return m
-        end
-      end
-      return false
-    end
-  end
-  return false
-end

@@ -159,12 +159,35 @@ public class OpenInventory extends ZeroArgFunction{
 				return NONE;
 			}
 			case getType:
-				return containerTypeName(container);
+				if(container instanceof GuiInventory)
+					return valueOf("inventory");
+				if (container instanceof GuiEnchantment)
+					return valueOf("enchantment table");
+				if(container instanceof GuiMerchant)
+					return valueOf("villager");
+				if(container instanceof GuiRepair)
+					return valueOf("anvil");
+				if(container instanceof GuiBeacon)
+					return valueOf("beacon");
+				if(container instanceof GuiBrewingStand)
+					return valueOf("brewing stand");
+				if(container instanceof GuiChest)
+					return valueOf("chest");
+				if(container instanceof GuiCrafting)
+					return valueOf("crafting table");
+				if(container instanceof GuiDispenser)
+					return valueOf("dispenser");
+				if(container instanceof GuiFurnace)
+					return valueOf("furnace");
+				if(container instanceof GuiHopper)
+					return valueOf("hopper");
+				if(container instanceof GuiScreenHorseInventory)
+					return valueOf("horse inventory");
+				if(container instanceof GuiShulkerBox)
+					return valueOf("shulker box");
+				return valueOf(container.getClass().toString());
 			case getTotalSlots: { //as suggested by swadicalrag
 				return valueOf(container.inventorySlots.inventorySlots.size());
-			}
-			case getMap: {
-				return mapping.get(containerTypeName(container)).opttable(new LuaTable());
 			}
 			default:
 				break;
@@ -172,36 +195,6 @@ public class OpenInventory extends ZeroArgFunction{
 			return NONE;
 		}
 
-	}
-	
-	public LuaValue containerTypeName(GuiContainer container) {
-		if(container instanceof GuiInventory)
-			return valueOf("inventory");
-		if (container instanceof GuiEnchantment)
-			return valueOf("enchantment table");
-		if(container instanceof GuiMerchant)
-			return valueOf("villager");
-		if(container instanceof GuiRepair)
-			return valueOf("anvil");
-		if(container instanceof GuiBeacon)
-			return valueOf("beacon");
-		if(container instanceof GuiBrewingStand)
-			return valueOf("brewing stand");
-		if(container instanceof GuiChest)
-			return valueOf("chest");
-		if(container instanceof GuiCrafting)
-			return valueOf("crafting table");
-		if(container instanceof GuiDispenser)
-			return valueOf("dispenser");
-		if(container instanceof GuiFurnace)
-			return valueOf("furnace");
-		if(container instanceof GuiHopper)
-			return valueOf("hopper");
-		if(container instanceof GuiScreenHorseInventory)
-			return valueOf("horse inventory");
-		if(container instanceof GuiShulkerBox)
-			return valueOf("shulker box");
-		return valueOf(container.getClass().toString());
 	}
 
 	private static enum OpCode {
@@ -214,7 +207,6 @@ public class OpenInventory extends ZeroArgFunction{
 		quick,
 		grabAll,
 		getType,
-		getMap,
 		getTotalSlots,
 		click;
 
